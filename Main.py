@@ -1,3 +1,4 @@
+#fuck you check
 import tkinter as tk
 import matplotlib
 import matplotlib.pyplot as plt
