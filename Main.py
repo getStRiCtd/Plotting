@@ -2,6 +2,7 @@ import tkinter as tk
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg as FigureCanvas
+import numpy as np
 
 matplotlib.use('TkAgg')
 
@@ -55,39 +56,48 @@ class MainWindow(tk.Frame):
 
 class GraphWindow(tk.Toplevel, Frames):
     def __init__(self):
+
         tk.Toplevel.__init__(self)
         Frames.__init__(self)
         
         self.x_coord = tk.IntVar()
         self.y_coord = tk.IntVar()
-        self.frame_2.input = tk.Entry(master=self.frame_2, textvariable=self.x_coord)
-        self.frame_2.input.grid(row=0, column=1)
+        self.function = tk.StringVar()
+        self.variable = tk.StringVar()
 
-        self.frame_2.input_x = tk.Entry(master=self.frame_2, textvariable=self.x_coord)
-        self.frame_2.input_x.grid(row=0, column=0)
 
-        self.frame_2.input_y = tk.Entry(master=self.frame_2, textvariable=self.y_coord)
-        self.frame_2.input_y.grid(row=0, column=1)
+        self.frame_2.input_math_function = tk.Entry(master=self.frame_2, textvariable=self.function)
+        self.frame_2.input_math_function.grid(row=0, column=0)
+        
 
-        self.frame_3.action = tk.Button(master=self.frame_3, text='Wow that\'s work',
+        self.frame_3.action = tk.Button(master=self.frame_3, text='PLot',
                                         command=self.draw_graph)
         self.frame_3.action.grid()
 
-        self.f = plt.figure(figsize=(10, 5))
 
+        self.f = plt.figure(figsize=(10, 5))
         self.canvas = FigureCanvas(self.f, self.frame_1)
-        
         self.canvas.get_tk_widget().grid()
 
+
+
     def plotting_graph(self):
-        self.f.clear()
-        x, y = self.x_coord.get(), self.y_coord.get()
+        function = self.function.get()
+        y = lambda x: eval(function)
+        x = np.array([numeral for numeral in range(-10, 11)])
+
         self.ax0 = self.f.add_subplot()
-        return self.ax0.scatter(x, y)
+        self.ax0.grid()
+        return self.ax0.plot(x, y(x))
+
+
 
     def draw_graph(self):
+        self.f.clear()
         self.plotting_graph()
         self.canvas.draw()
+
+
 
 
 if __name__ == '__main__':
