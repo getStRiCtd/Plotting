@@ -98,8 +98,6 @@ class GraphWindow(tk.Toplevel, Frames):
         self.canvas.draw()
 
 
-
-
 if __name__ == '__main__':
     root = tk.Tk()
 
